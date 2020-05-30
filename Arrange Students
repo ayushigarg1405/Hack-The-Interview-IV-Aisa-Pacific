@@ -1,0 +1,58 @@
+Question:
+
+A classroom has several students, half of whom are boys and half of whom are girls. You need to arrange all of them in a line for the morning assembly such that the following 
+conditions are satisfied:
+
+The students must be in order of non-decreasing height.
+Two boys or two girls must not be adjacent to each other.
+You have been given the heights of the boys in the array  and the heights of the girls in the array . 
+Find out whether you can arrange them in an order which satisfies the given conditions. Print "YES" if it is possible, or "NO" if it is not.
+
+For example, let's say there are  boys and  girls, where the boys' heights are  and the girls' heights are . 
+These students can be arranged in the order , which is [2, 3, 4, 5, 6, 8]. 
+Because this is in order of non-decreasing height, and no two boys or two girls are adjacent to each other, this satisfies the conditions. Therefore, the answer is "YES".
+
+Solution Approach:
+
+Making use of prioriy queue for store elemnets of both the array in non decreasing order.
+Until queue is not empty, pop out first two elements and check whether they are in different array. 
+If yes, continue else return "NO".
+
+Solution:
+
+string arrangeStudents(vector<int> a, vector<int> b) {
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+    
+    int n = a.size();
+    if(n==1)
+        return "YES";
+    if(n==0)
+        return "NO";
+    priority_queue<int, vector<int>, greater<int>> pq;
+    for(int i=0;i<n;i++){
+        pq.push(a[i]);
+        pq.push(b[i]);
+    }
+    
+    int i=0;
+    while(!pq.empty()){
+        int num1 = pq.top();
+        pq.pop();
+        int num2 = pq.top();
+        pq.pop();
+        
+        if(num1==a[i] and num2==b[i]){
+            i++;
+            continue;
+        }    
+        else if(num1==b[i] and num2==a[i]){
+            i++;
+            continue;
+        }   
+        else
+            return "NO";
+        
+    }
+    return "YES";
+}
