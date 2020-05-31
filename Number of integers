@@ -1,0 +1,75 @@
+Question:
+
+Given two large integers, L and R, find the number of integers greater than L and less than or equal to R exactly K non-zero digits.
+
+For example, consider the two integers to be,  and  and , the integers [3, 4, 5, 6, 7, 8, 9, 10] contain exactly 1 non-zero digit.
+
+As the answer can be rather large, print it modulo .
+
+Solution Approach:
+
+Make use of Dynamic Programming
+
+Solution:
+
+const int M = 20;
+long long int dp[M][M][2]; 
+int K;
+long long int countInRangeUtil(int pos, int cnt, int tight, 
+                     vector<int> num) 
+{ 
+    long long int n = num.size();
+    if (pos == n) {
+        if (cnt == K) 
+            return 1; 
+        return 0; 
+    } 
+  
+    if (dp[pos][cnt][tight] != -1) 
+        return dp[pos][cnt][tight]; 
+  
+    long long int ans = 0; 
+   
+    int limit = (tight ? 9 : num[pos]); 
+  
+    for (int dig = 0; dig <= limit; dig++) { 
+        int currCnt = cnt; 
+  
+        if (dig != 0) 
+            currCnt++; 
+  
+        int currTight = tight; 
+  
+        
+        if (dig < num[pos]) 
+            currTight = 1; 
+  
+        
+        ans += countInRangeUtil(pos + 1, currCnt, 
+                                currTight, num); 
+    } 
+    return dp[pos][cnt][tight] = ans; 
+} 
+
+int countInRange(int x) 
+{ 
+    vector<int> num; 
+    while (x) { 
+        num.push_back(x % 10); 
+        x /= 10; 
+    } 
+    reverse(num.begin(), num.end()); 
+  
+    
+    memset(dp, -1, sizeof(dp)); 
+    return countInRangeUtil(0, 0, 0, num); 
+} 
+
+long long int getNumberOfIntegers(string L, string R, int a) {
+    
+    long long int n1 = stoi(L);
+    long long int n2 = stoi(R);
+    K=a;
+    return (countInRange(n2)-countInRange(n1));
+    
+}
