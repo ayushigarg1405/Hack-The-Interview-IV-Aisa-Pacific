@@ -1,0 +1,41 @@
+Question:
+
+You have been given a binary string containing only the characters "" and "". 
+A binary string is considered valid if each of its substrings of at least a certain length contains at least one "" character. 
+Given the binary string, and the minimum length of substring, determine how many characters of the string need to be changed in order to make the binary string valid.
+
+Note that string  is a substring of string  if it has a non-zero length and can be read starting from some position in string . 
+For example, string "" has six substrings: "", "", "", "", "", "".
+
+For example, let's say the binary string  = "" of length , and the minimum substring length is . 
+This is currently not valid because one of its substrings, "", of length 3 has no ""s in it. By changing the second character to a "", the string becomes "". 
+In this case, all of its substrings of length 2 or more has at least one "" character: "", "", and "". Because this required 1 change, the answer is 1.
+
+Solution:
+
+int minimumMoves(string s, int d) {
+    int res=0;
+    long long int n = s.length();
+    
+    if(d==n){
+        for(int i=0;i<n;i++){
+            if(s[i]=='1')
+                return 0;
+        }
+        res++;
+        return res;
+    }
+    res=0;
+    for(int i=0;i<n-d+1;i++){
+        int num = 0;
+        for(int j=0;j<d;j++){
+            if(s[i+j]=='1')
+                num++;
+        }
+        if(num==0)
+            res++;
+        
+        
+    }
+    return res;
+}
